@@ -1,0 +1,63 @@
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+.movie-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.movie-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+.movie-poster {
+    height: 250px;
+    object-fit: cover;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+}
+
+footer a:hover {
+    color: #fff !important;
+    text-decoration: underline !important;
+}
+
+.alert {
+    border-radius: 8px;
+}
+
+.card {
+    border-radius: 10px;
+    border: none;
+}
+
+.card-img-top {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.pagination .page-link {
+    color: #212529;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #212529;
+    border-color: #212529;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .movie-poster {
+        height: 200px;
+    }
+}

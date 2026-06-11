@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="text-center mb-5">
+    <h1 class="display-4 fw-bold">Welcome to Cinema</h1>
+    <p class="lead text-muted">Discover, create, and manage your favorite movies</p>
+    {% if not user.is_authenticated %}
+        <div class="mt-4">
+            <a href="{% url 'register' %}" class="btn btn-dark btn-lg me-2">Get Started</a>
+            <a href="{% url 'login' %}" class="btn btn-outline-dark btn-lg">Login</a>
+        </div>
+    {% endif %}
+</div>
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <h3>Latest Movies</h3>
+            <a href="{% url 'movie_list' %}" class="btn btn-outline-dark btn-sm">View All</a>
+        </div>
+        <hr>
+    </div>
+</div>
+
+<div class="row g-4">
+    {% for movie in movies %}
+        <div class="col-md-4 col-lg-2">
+            <div class="card h-100 shadow-sm movie-card">
+                {% if movie.poster %}
+                    <img src="{{ movie.poster.url }}" class="card-img-top movie-poster" alt="{{ movie.title }}">
+                {% else %}
+                    <div class="card-img-top movie-poster d-flex align-items-center justify-content-center bg-secondary text-white">
+                        <i class="bi bi-film" style="font-size: 3rem;"></i>
+                    </div>
+                {% endif %}
+                <div class="card-body">
+                    <h6 class="card-title">{{ movie.title }}</h6>
+                    <p class="card-text small text-muted">{{ movie.release_year }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-warning text-dark">
+                            <i class="bi bi-star-fill"></i> {{ movie.rating }}
+                        </span>
+                        <a href="{% url 'movie_detail' movie.slug %}" class="btn btn-sm btn-outline-dark">View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12 text-center py-5">
+            <i class="bi bi-film text-muted" style="font-size: 4rem;"></i>
+            <h4 class="text-muted mt-3">No movies yet</h4>
+            {% if user.is_authenticated %}
+                <a href="{% url 'movie_create' %}" class="btn btn-dark mt-2">Add First Movie</a>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

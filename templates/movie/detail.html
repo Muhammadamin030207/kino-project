@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}{{ movie.title }}{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        {% if movie.poster %}
+            <img src="{{ movie.poster.url }}" class="img-fluid rounded shadow" alt="{{ movie.title }}">
+        {% else %}
+            <div class="bg-secondary text-white rounded d-flex align-items-center justify-content-center shadow" style="height: 400px;">
+                <i class="bi bi-film" style="font-size: 5rem;"></i>
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-md-8">
+        <h2>{{ movie.title }}</h2>
+        <div class="mb-3">
+            {% for genre in movie.genres.all %}
+                <span class="badge bg-secondary me-1">{{ genre.name }}</span>
+            {% endfor %}
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-6">
+                <p><strong>Director:</strong> {{ movie.director.user.full_name }}</p>
+                <p><strong>Release Year:</strong> {{ movie.release_year }}</p>
+            </div>
+            <div class="col-sm-6">
+                <p><strong>Rating:</strong> <span class="badge bg-warning text-dark fs-6"><i class="bi bi-star-fill"></i> {{ movie.rating }}</span></p>
+                <p><strong>Added:</strong> {{ movie.created_at|date:"M d, Y" }}</p>
+            </div>
+        </div>
+        <h5>Description</h5>
+        <p>{{ movie.description|linebreaks }}</p>
+        {% if user.is_authenticated and movie.director.user == user %}
+            <div class="mt-4">
+                <a href="{% url 'movie_edit' movie.slug %}" class="btn btn-dark">Edit</a>
+                <a href="{% url 'movie_delete' movie.slug %}" class="btn btn-outline-danger">Delete</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
